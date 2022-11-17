@@ -1,6 +1,6 @@
 <template>
     <div class="head">
-        <h3>Resume Builder</h3>
+        <h2>Resume Builder</h2>
     </div>
 </template>
 
@@ -18,7 +18,10 @@ export default{
     box-sizing: border-box;
 }
 .head{
-    padding: 20px;
+    padding: 25px;
+    text-align: left;
+    background-color: black;
+    color: whitesmoke;
 }
 
 </style>
