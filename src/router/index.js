@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import accordionForm from '../views/Accordion.vue'
 import EditResume from '../views/ResumeEdit.vue'
-import ResumeUpdate from '../views/ResumeUpdate.vue'
+
 
 
 Vue.use(VueRouter)
@@ -24,11 +24,7 @@ const routes = [
     name:'edit',
     component:EditResume
   },
-  {
-    path:'/update',
-    name:'update',
-    component:ResumeUpdate
-  }
+ 
   
   
 ]

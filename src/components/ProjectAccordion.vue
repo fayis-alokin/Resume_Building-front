@@ -1,34 +1,44 @@
 <template>
     <v-row justify="center">
-        <v-expansion-panels accordion focusable>
+        <v-expansion-panels accordion>
           <v-expansion-panel>
             <v-expansion-panel-header>Project Details</v-expansion-panel-header>
+            <v-divider></v-divider>
             <v-expansion-panel-content>
                 <v-col sm="12" v-for="(item,i) in project_ar" :key="i">
                   <v-row class="input">
+                   <v-col cols="12" sm="2" class="label">
                     <v-panel-title class="input-label">
                       Project Title
                     </v-panel-title>
-                    <v-text-field
+                   </v-col>
+                    <v-col cols="12" sm="4">
+                      <v-text-field
                       v-model="item.project_title"
                       :counter="10"
                       placeholder="Add Project title"
-                      class="mr-6"
+                      class="mr-6 field"
                     ></v-text-field>
+                    </v-col>
                 </v-row>
+                <v-divider></v-divider>
                 <v-row class="input">
-                  <v-panel-title class="input-label">
-                    Project Description
-                  </v-panel-title>
-                <v-text-field
+                  <v-col cols="12" sm="2" class="label">
+                    <v-panel-title class="input-label">
+                      Project Description
+                    </v-panel-title>
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <v-text-field
                   v-model="item.project_description"
                   placeholder="Add Project description"
-                  class="mr-6"
+                  class="mr-6 field"
                 ></v-text-field>
+                  </v-col>
                   </v-row>
                   <v-row>
-                    <v-btn @click="addProject" class="mb-3">Add more</v-btn>
-                    <v-btn @click="removeProject" class="mb-3 ml-3">Remove</v-btn>
+                    <v-btn @click="addProject" class="mb-3" text>+ Add more</v-btn>
+                    <v-btn @click="removeProject(i)" class="mb-3 ml-3" text>- Remove</v-btn>
                   </v-row>
                 </v-col>
                 
@@ -59,8 +69,8 @@ export default{
   }),
   mounted(){
     if(this.project_details)
-    this.project=this.project_details
-    this.project_ar = JSON.parse(JSON.stringify(this.project_details))
+    this.project_ar=this.project_details
+    // this.project_ar = JSON.parse(JSON.stringify(this.project_details))
    },
   methods:{
     addProject() {
@@ -70,7 +80,6 @@ export default{
         })
     },
     removeProject(index){
-      this.removedproject_ar.push(this.project_ar[index]?.id);
       this.project_ar.splice(index, 1);
       if (!this.project_ar.length) this.addProject();
     }
@@ -92,11 +101,5 @@ export default{
   margin: 0;
   
 }
-.input-label{
-  width: 200px;
-  padding-top: 20px;
-  padding-right: 20px;
-  margin-right: 20px;
-  background-color: aliceblue;
-}
+
 </style>

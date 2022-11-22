@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ListingTable from '../components/listing_page.vue'
+import ListingTable from '../components/ListingPage.vue'
 
 export default{
     name :'HomePage',

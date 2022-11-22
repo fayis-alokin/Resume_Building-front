@@ -15,16 +15,31 @@
     <ProjectAccordion @project="getProjectDetails"/>
     <SkillAccordion @skill="getSkillDetails"/>
     <SocialAccordion @social="getSocialDetails"/>
-    <SkillTest/>
-    <v-row>
-      <v-btn class="mb-5 mt-3 teal" dark @click="create_resume" id="">
+ 
+    <v-row justify="end">
+        <router-link to="/" id="cancel" >
+          <v-btn class="mb-5 mt-3" text>Cancel</v-btn>
+        </router-link>
+      
+      <v-btn class="mb-5 mt-3 ml-3 mr-5 teal" dark @click="[validate(),create_resume()]" id="">
         Save
-      </v-btn>
-      <v-btn class="mb-5 mt-3 ml-3"   id="">
-        Cancel
       </v-btn>
     </v-row>
   </v-form>
+  <v-alert v-model="alert"
+  dense
+  text
+  type="success"
+>
+  Successfully saved
+</v-alert>
+  <v-alert v-model="failAlert"
+  dense
+  text
+  type="error"
+>
+  Please fill the details
+</v-alert>
     
   </v-main> 
   
@@ -34,14 +49,14 @@
 
 <script>
 
-import SubHeading from '../components/accordiontitle.vue'
-import BasicAccordion from '../components/basic_accordion.vue'
-import AddressAccordion from '../components/address_accordion.vue'
-import EducationAccordion from '../components/education_accordion.vue'
-import ExperienceAccordion from '../components/experience_accordion.vue'
-import ProjectAccordion from '../components/project_accordion.vue'
-import SkillAccordion from '../components/skill_accordion.vue'
-import SocialAccordion from '../components/social_accordion.vue'
+import SubHeading from '../components/AccordionTitle.vue'
+import BasicAccordion from '../components/BasicAccordion.vue'
+import AddressAccordion from '../components/AddressAccordion.vue'
+import EducationAccordion from '../components/EducationAccordion.vue'
+import ExperienceAccordion from '../components/ExperienceAccordion.vue'
+import ProjectAccordion from '../components/ProjectAccordion.vue'
+import SkillAccordion from '../components/SkillAccordion.vue'
+import SocialAccordion from '../components/SocialAccordion.vue'
 import axios from 'axios'
 
 
@@ -78,7 +93,9 @@ import axios from 'axios'
         skill:[],
         project:[],
         social:[],
-        alert:false
+        alert:false,
+        failAlert:false,
+        valid:false
 
       }
     },
@@ -117,8 +134,6 @@ import axios from 'axios'
     },
     
     getProjectDetails(data){
-      // this.project_title = data.project_title
-      // this.project_description = data.project_description
       console.log("projectname :",data)
       this.project = data
 
@@ -130,15 +145,15 @@ import axios from 'axios'
      
     },
     getSocialDetails(data){
-      // this.platform = data.platform
-      // this.username = data.username
-      // this.social_URL = data.social_URL
-
       this.social = data
     },
+    validate() {
+        this.$refs.form.validate()
+      },
 
     async create_resume(){
       console.log("Hello")
+      
         const primaryDetails = {
             name: this.name,
             email: this.email,
@@ -159,12 +174,21 @@ import axios from 'axios'
             project_details:this.project,
             skill_details:this.skill,
             social_details:this.social
+
           }
-    console.log("varunnundonn nokk");     
+    
     console.log(primaryDetails);
     await axios.post(`http://127.0.0.1:8000/new_resume`,primaryDetails).then((res)=>{
-      this.alert=true
       console.log(res.data)
+      if (res.data.error_message){
+        this.alert = false
+        this.failAlert = true
+        console.log(res.data.error_message)
+      }
+      else{
+        this.alert = true
+      }
+      console.log("varunnundonn nokk");     
     }).catch((err)=>{
       console.log(err);
     })
@@ -183,9 +207,40 @@ import axios from 'axios'
 .v-form{
   margin-top: 20px;
 }
-.v-application a {
-  color: black;
+
+
+
+.row .input{
+  margin: 0;
+  
+}
+.input-label{
+  width: 100px;
+ 
+}
+.label{
+  padding: 0;
+  padding-top: 36px;
+  background-color: rgb(224, 224, 224);
+}
+.col-sm-4{
+  padding: 0px;
+}
+.field{
+margin-top: 18px;
+margin-left: 8px;
+}
+.v-expansion-panel-content__wrap{
+  padding: 0px;
+}
+.v-divider{
+  background-color: rgb(194, 190, 190);
 }
 
-
+.col{
+  padding: 0px;
+}
+#cancel{
+  text-decoration: none;
+}
 </style>

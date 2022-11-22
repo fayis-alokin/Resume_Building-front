@@ -11,30 +11,37 @@
         <AddressAccordion v-if="items.adrs" :address_details="items.adrs[0]" @address="getAddressDetails"/>
         <EducationAccordion v-if="items.edu" :education_details="items.edu" @education="getEducationDetails"/>
         <ExperienceAccordion v-if="items.exp" :experience_details="items.exp" @experience="getExperienceDetails"/>
-        <ProjectAccordion v-if="items.prjct" :project_details="items.prjct[0]" @project="getProjectDetails"/>
-        <SkillAccordion v-if="items.skl" :skill_details="items.skl[0]" @skill="getSkillDetails"/>
-        <SocialAccordion v-if="items.sm" :social_details="items.sm[0]" @social="getSocialDetails"/>
-        <v-row>
-          <v-btn class="mb-5 teal" dark @click="edit_resume">
-            Edit
-          </v-btn>
-          <v-btn class="mb-5 ml-3" >
-            Cancel
+        <ProjectAccordion v-if="items.prjct" :project_details="items.prjct" @project="getProjectDetails"/>
+        <SkillAccordion v-if="items.skl" :skill_details="items.skl" @skill="getSkillDetails"/>
+        <SocialAccordion v-if="items.sm" :social_details="items.sm" @social="getSocialDetails"/>
+        <v-row justify="end">
+          <router-link to="/" id="cancel" >
+            <v-btn class="mb-5 mt-3" text>Cancel</v-btn>
+          </router-link>
+          <v-btn class="mb-5 mt-3 ml-3 mr-5 teal" dark @click="edit_resume" id="">
+            Save
           </v-btn>
         </v-row>
       </v-form>
+      <v-alert v-model="alert"
+      dense
+      text
+      type="success"
+    >
+      Successfully Edited
+    </v-alert>
     </v-main>
 </template>
 
 <script>
-import subHeading from '../components/accordiontitle.vue' 
-import BasicAccordion from '../components/basic_accordion.vue'
-import AddressAccordion from '../components/address_accordion.vue'
-import EducationAccordion from '../components/education_accordion.vue'
-import ExperienceAccordion from '../components/experience_accordion.vue'
-import ProjectAccordion from '../components/project_accordion.vue'
-import SkillAccordion from '../components/skill_accordion.vue'
-import SocialAccordion from '../components/social_accordion.vue'
+import subHeading from '../components/AccordionTitle.vue' 
+import BasicAccordion from '../components/BasicAccordion.vue'
+import AddressAccordion from '../components/AddressAccordion.vue'
+import EducationAccordion from '../components/EducationAccordion.vue'
+import ExperienceAccordion from '../components/ExperienceAccordion.vue'
+import ProjectAccordion from '../components/ProjectAccordion.vue'
+import SkillAccordion from '../components/SkillAccordion.vue'
+import SocialAccordion from '../components/SocialAccordion.vue'
 import axios from 'axios'
 export default{
     name:'EditResume',
@@ -53,7 +60,7 @@ export default{
         name:'',
         email: '',
         phone:'',
-        image:'',
+        image_URL:'',
         summary:'',
         House_name:'',
         Street:'',
@@ -69,8 +76,6 @@ export default{
         location:'',
         start_date:'',
         end_date:'',
-        skill_name: "",
-        skill_level: "",
         project_title:'',
         project_description:'',
         platform:'',
@@ -81,6 +86,9 @@ export default{
         education:[],
         experience:[],
         project:[],
+        skill:[],
+        social:[],
+        alert:false
       }
     },
     methods:{
@@ -89,10 +97,10 @@ export default{
         this.name=data.name
         this.email=data.email
         this.phone=data.phone
-        this.image=data.image
+        this.image=data.image_URL
         this.summary=data.summary
-        console.log("nokk")
-        console.log(data)
+        console.log("nokk",data.image_URL)
+        console.log("-----------",this.image)
         },
         getAddressDetails(data){
         this.House_name = data.House_name
@@ -100,40 +108,26 @@ export default{
         this.City = data.City
         this.pincode = data.pincode
         this.Country = data.Country
-        console.log(this.pincode)
+        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",this.pincode)
         console.log(this.Street)
         },
         getEducationDetails(data){
-          console.log("education data:",data)
           this.education = data
+          console.log("education data:",data)
         },
         getExperienceDetails(data){
-          // console.log("varunnund:")
-          // console.log("Exp data:",data)
-          // this.role = data.role
-          // this.company_name = data.company_name
-          // this.company_location = data.company_location
-          // this.end_date = data.end_date
-
           this.experience = data
         },
         getProjectDetails(data){
-          // console.log("project data:",data)
-          // this.project_title = data.project_title
-          // this.project_description = data.project_description
-          // console.log(this.project_title)
-          // console.log(data.project_title)
-
           this.project = data
+          console.log("project-data:",data)
         },
         getSkillDetails(data){
-        this.skill_name = data.skill_name
-        this.skill_level = data.skill_level
+        this.skill = data
+        console.log("skil-data:",data)
         },
         getSocialDetails(data){
-        this.platform = data.platform
-        this.username = data.username
-        this.social_URL = data.social_URL
+        this.social = data
         },
 
 
@@ -162,26 +156,18 @@ export default{
                 edu:this.education,
                 exp:this.experience,
                 prjct:this.project,
-                skl:[
-                {
-                skill_name:this.skill_name,
-                skill_level:this.skill_level
-                }
-                ],
-                sm:[
-                {
-                    platform:this.platform,
-                    username:this.username,
-                    social_URL:this.social_URL
-                }
-                ]
+                skl:this.skill,
+                sm:this.social
             }
             console.log(primaryDetails);
             await axios.put(`http://127.0.0.1:8000/get_individual_resume/${this.id}`,primaryDetails).then((res)=>{
-            console.log(res.data)
+            this.alert=true
+            console.log("gyyefeyrf",res.data)
+            console.log("id is:",this.id)
             }).catch((err)=>{
             console.log(err);
             })
+            
         },
         async formget(){
              await axios.get(`http://127.0.0.1:8000/get_individual_resume/${this.id}`).then((res)=>{
