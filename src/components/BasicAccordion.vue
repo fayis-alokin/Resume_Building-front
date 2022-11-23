@@ -90,7 +90,6 @@
                 ></v-textarea>
                   </v-col>
                 </v-row>
-        
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -114,8 +113,8 @@ export default{
         summary:''
       },
       nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length > 3) || 'Name must be greater than 3 characters',
+        v => !!v || 'Name is required',
+        v => (v && v.length > 3) || 'Name must be greater than 3 characters',
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -125,8 +124,6 @@ export default{
         v => !!v || 'Phone no. is required',
         v => /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(v) || 'Enter valid phone no.'
       ],
-
-
     }
    },
    mounted(){
@@ -139,7 +136,6 @@ export default{
    watch:{
     primary:{
       handler(val){
-        console.log("aaaaaaaaaaaaaaaaaaa",val)
         this.$emit('primary',val)
       },
       deep:true

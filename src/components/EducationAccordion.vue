@@ -68,7 +68,7 @@
                 </v-row>
                 <v-divider></v-divider>
                 <v-row class="input">
-                 <v-col cols="12" sm="2" class="label">
+                 <v-col cols="12" sm = "2" class="label">
                   <label class="input-label">
                     Passing year
                   </label>
@@ -97,7 +97,7 @@
 
 
 export default{
-    name : 'EducationAccordion',  
+    name : 'EducationAccordion', 
     props:{
       education_details:Array
     }, 
@@ -136,8 +136,8 @@ export default{
              
     },
     removeEducation(i){
-      this.skl_ar.splice(i, 1);
-      if (!this.skl_ar.length) this.addSkill();
+      this.education_ar.splice(i, 1);
+      if (!this.education_ar.length) this.addEducation();
     }
    },
   watch:{

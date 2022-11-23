@@ -9,7 +9,7 @@
       <v-divider class="ml-5"></v-divider>
       <div class="list-main">
         <div class="list-search-main">
-          <v-col class="row mt-3 mb-2" cols="6" sm="6">
+          <v-col class="row mt-3 mb-2" cols="6" sm="4">
               <v-text-field 
                 placeholder="Search by name or e-mail" 
                 outlined
@@ -166,11 +166,9 @@
 <script>
 
  import axios from 'axios'
-//  import DeleteMessage from './DeleteMessage.vue'
 export default{
     name:'ListingTable',
     components:{
-        // DeleteMessage
         
     },
   
@@ -186,6 +184,7 @@ export default{
         }
     },
     methods :{
+      // for searching
         async getData(){
             await axios.get(`http://127.0.0.1:8000/search/${this.query}`)
             .then((response) => {
@@ -196,12 +195,15 @@ export default{
                 console.log('error: ',error)
             })
         },
+        
+        // to delete
         async deleteResume(id){
             console.log("Deleting resume")
             await axios.delete(`http://127.0.0.1:8000/delete_primary/${id}`)
             .then((res)=> console.log(res.data))
             this.dialog=false
             this.alert=(true,5000)
+            window.location.reload()
             
         },
         getConfirmation(id){
@@ -263,7 +265,8 @@ export default{
 .list-search-right{
    
     padding-left: 30%;
-    padding-top: 37px;
+    margin-left: 14%;
+    padding-top: 34px;
 }
 .list-search-right a{
     text-decoration: none;
@@ -296,7 +299,7 @@ th{
     padding-left: 33px;
 }
 .data:hover{
-  background-color: rgb(145, 196, 196);
+  background-color: rgb(197, 224, 224);
 }
 .v-list-item:hover{
     background-color: rgb(218, 218, 218);
@@ -315,7 +318,8 @@ th{
   .list-search-right{
    
     padding-left: 0;
-    padding-top: 9%;
+    margin-left: 0;
+    padding-top: 20px;
 }
 
   

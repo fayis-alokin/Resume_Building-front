@@ -1,47 +1,47 @@
 
 <template>
   <v-main>
-    
+  
     <SubHeading content="Create Resume content"/>
     <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
+      ref="form"
+      v-model="valid"
+      lazy-validation
+      >
+      <BasicAccordion @primary="getPrimaryDetails"/>
+      <AddressAccordion @address="getAddressDetails"/>
+      <EducationAccordion @education="getEducationDetails"/>
+      <ExperienceAccordion @experience="getExperienceDetails"/>
+      <ProjectAccordion @project="getProjectDetails"/>
+      <SkillAccordion @skill="getSkillDetails"/>
+      <SocialAccordion @social="getSocialDetails"/>
+  
+      <v-row justify="end">
+          <router-link to="/" id="cancel" >
+            <v-btn class="mb-5 mt-3" text>Cancel</v-btn>
+          </router-link>
+        
+        <v-btn class="mb-5 mt-3 ml-3 mr-5 teal" dark @click="[validate(),create_resume()]" id="">
+          Save
+        </v-btn>
+      </v-row>
+    </v-form>
+    <v-alert v-model="alert"
+      dense
+      text
+      type="success"
     >
-    <BasicAccordion @primary="getPrimaryDetails"/>
-    <AddressAccordion @address="getAddressDetails"/>
-    <EducationAccordion @education="getEducationDetails"/>
-    <ExperienceAccordion @experience="getExperienceDetails"/>
-    <ProjectAccordion @project="getProjectDetails"/>
-    <SkillAccordion @skill="getSkillDetails"/>
-    <SocialAccordion @social="getSocialDetails"/>
- 
-    <v-row justify="end">
-        <router-link to="/" id="cancel" >
-          <v-btn class="mb-5 mt-3" text>Cancel</v-btn>
-        </router-link>
-      
-      <v-btn class="mb-5 mt-3 ml-3 mr-5 teal" dark @click="[validate(),create_resume()]" id="">
-        Save
-      </v-btn>
-    </v-row>
-  </v-form>
-  <v-alert v-model="alert"
-  dense
-  text
-  type="success"
->
-  Successfully saved
-</v-alert>
-  <v-alert v-model="failAlert"
-  dense
-  text
-  type="error"
->
-  Please fill the details
-</v-alert>
-    
-  </v-main> 
+      Successfully saved
+    </v-alert>
+    <v-alert v-model="failAlert"
+      dense
+      text
+      type="error"
+    >
+      Please fill the details
+    </v-alert>
+        
+</v-main> 
   
   
 
@@ -102,11 +102,11 @@ import axios from 'axios'
     methods:{
     getPrimaryDetails(data) {
       console.log("Basic details >>>>", data)
-      this.name=data.name
-      this.email=data.email
-      this.phone=data.phone
-      this.image=data.image
-      this.summary=data.summary
+      this.name = data.name
+      this.email = data.email
+      this.phone = data.phone
+      this.image = data.image
+      this.summary = data.summary
       console.log(this.email);
     },
     getAddressDetails(data){
@@ -117,17 +117,12 @@ import axios from 'axios'
       this.Country = data.Country
     },
     getEducationDetails(data){
-      
-
       console.log("edu",data);
-
       this.education = data
       console.log("eduu",this.education);
     },
     getExperienceDetails(data){
-      
       console.log("exp:",data)
-
       this.experience = data
 
       
@@ -174,7 +169,6 @@ import axios from 'axios'
             project_details:this.project,
             skill_details:this.skill,
             social_details:this.social
-
           }
     
     console.log(primaryDetails);
@@ -236,7 +230,6 @@ margin-left: 8px;
 .v-divider{
   background-color: rgb(194, 190, 190);
 }
-
 .col{
   padding: 0px;
 }

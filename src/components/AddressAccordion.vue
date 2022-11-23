@@ -14,7 +14,7 @@
                  <v-col cols="12" sm="4">
                   <v-text-field
                   v-model="address.House_name"
-                  :counter="10"
+                  :counter="30"
                   placeholder=" Add House Name"
                   required
                   class="mr-6 field"
